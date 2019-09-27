@@ -24,17 +24,13 @@ def GameMenu():
             #Subtracting 1 from the strength
             loss = Character.criticalLoss()
             print(str(loss))
-            #Character.subStrength(1)
             #Decrease Vitality which then affects the health
         #If the firstChallege output is d, then the user critically won, +1 from stats and vitality which increases health
         elif(resultFirstChallenge == 'd'):
             win = Character.criticalWin()
             print(str(win))
-            #Character.addStrength(1)
-        #print(AskRole)
-#    elif(AskRole == 'Wizard' or 'wizard'):
-#        Character = Wizard
-    #print(Introduction, AskRole)
+        #    elif(AskRole == 'Wizard' or 'wizard'):
+        #        Character = Wizard
 #This method will be the first challenge of entering  a room into 
 def firstChallenge(Role):
     #Decision can be a bush (5 bandages), school directory(map), door(locked, unlock), Sheridan Sign (key)
@@ -42,7 +38,7 @@ def firstChallenge(Role):
     key = False
     resultOutcome = ''
     lockUnlocked = False
-    textQuestLine = '\n' + 'The dean has assigned you the ' + Role.__class__.__name__ + ' role and has given you the powers' + '\n' + 'to wake these teachers up' + 'The dean has asked you to figure out a way to get inside of the campus because the teachers have locked them from the inside' + '\n'
+    textQuestLine = '\n' + 'The dean has assigned you the ' + Role.__class__.__name__ + ' role and has given you the powers' + '\n' + 'to wake these teachers up.' + '\n' + 'The dean has asked you to figure out a way to get inside of the campus because the teachers have lock the doors from the inside.' + '\n'
     print(textQuestLine)
     questInput = input('Do you accept the quest?(Y/N)')
     if(questInput == str(questInput) == 'yes' or 'y'):
@@ -58,7 +54,6 @@ def firstChallenge(Role):
                     #behind the bush is a note that says in order to enter the school, check the door
                     textLocation = 'You find a note, you pick it up and read it reads:' +'\n' + 'Check the main entrance of the school(door)'
                     print(textLocation)
-                # vv Get to the directory decision vv 
                 elif(decision.lower() == 'b' and 'directory'):
                     #you check the school directory and see where the different spots are in the school, you put the map in your backpack
                     pickUp = ''
@@ -77,7 +72,7 @@ def firstChallenge(Role):
                         textLocation = 'The door is locked and there is a lock' +'\n' + '...it seems like it can be locked by something'
                         print(textLocation)
                     elif(key == True):
-                        textLocation = 'The door is locked and there is a lock' + '\n' + 'it seems like your key fits it ' + '\n' + '...' + '\n' + 'Door is now unlocked!'
+                        textLocation = 'The door is locked and there is a lock' + '\n' + 'it seems like your key fits it ' + '\n' + '...' + '\n' + 'Door is now unlocked!' + '\n' + 'You have now entered the campus. '
                         #The result outcome is equal to the dice roll from gamePlay()
                         resultOutcome = gamePlay()
                         print(textLocation)
@@ -118,23 +113,24 @@ def entranceOfSchoolDecision():
 def gamePlay():
     result = ''
     resultOutcome = ''
-    diceOne = random.randrange(0,6)
-    diceTwo = random.randrange(0,6)
+    diceOne = random.randrange(0,7)
+    diceTwo = random.randrange(0,7)
     finalDice = diceOne + diceTwo
+    print(finalDice)
     #Critical Loss (e.g. 2 - 3): challenge is lost and the attribute that is based on is decreased
-    if finalDice == 2 or 3:
-        result = 'You rolled a ' + str(finalDice) + ' challenge is critically lost and the attribute that is based on is decreased'
+    if finalDice == (2 and 3):
+        result = 'You rolled a ' + str(finalDice) + ' challenge is critically lost and your attributes have decreased'
         resultOutcome = 'a'
     #Loss (e.g. 4-7): challenge is lost, no change in the character’s attributes
-    elif (finalDice == 4 or 5 or 6 or 7):
+    elif (finalDice == (4 and 5 and 6 and 7)):
         result = 'You rolled a ' + str(finalDice) + ' challenge is lost, no change in the character’s attributes'
         resultOutcome = 'b'
     #Win (e.g. 8-10): challenge is won, no change in the character’s attributes
-    elif (finalDice == 8 or 9 or 10):
+    elif (finalDice == (8 and 9 and 10)):
         result = 'You rolled a ' + str(finalDice) + ' challenge is won, no change in the character’s attributes'
         resultOutcome = 'c'
     #Critical Win (e.g. 11-12): challenge is won and the attribute that is based on increases
-    elif (finalDice == 11 or 12):
+    elif (finalDice == (11 and 12)):
         result = 'You rolled a ' + str(finalDice) + ' challenge is critically won and the attribute that is based on increases'
         resultOutcome = 'd'
     else:
