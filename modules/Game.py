@@ -5,13 +5,13 @@ import Warrior
 import Wizard
 #This GameMenu() method represents the introduction of the game, asking for users name and creating the Role object (Warrior and Wizard)
 def GameMenu():
-    Introduction = 'Welcome to the World of Sheridan.' + '\n' + 'The school has been infested with teachers that sleep,' + '\n' + 'when they teach and we want to get rid of them by the time the summer ends.'
+    Introduction = 'Welcome to the World of Sheridan.' + '\n' + '\n' + 'The school has been infested with teachers that sleep,' + '\n' + 'when they teach and we want to get rid of them by the time the summer ends.' + '\n'
     print(Introduction)
-    Name = input('Before we begin what is your name? ')
-    AskRole = input(f'Well {Name}, you have just entered the school and you see this problem,' + '\n' + 
+    Name = input('Before we begin what is your name? ' + '\n')
+    AskRole = input('\n' + f'Well {Name}, you have just entered the school and you see this problem,' + '\n' + 
     'the dean of the school has allowed the special powers' + '\n' +
-    'to be given to you to wake these teachers up' + '\n'
-    + 'The dean gives you two options: Warrior or Wizard, in order to wake up these bad teachers. ')
+    'to be given to you to wake these teachers up.' + '\n' + '\n'
+    + 'The dean gives you two options: ' + '\n' +  'Warrior or Wizard, in order to wake up these bad teachers. ')
     if (AskRole == 'Warrior' or 'warrior'):
         #When user input equals the role create an object of Warrior or Wizard accordingly to the user input
         Character = Warrior.Warrior(Name)
@@ -42,14 +42,13 @@ def firstChallenge(Role):
     key = False
     resultOutcome = ''
     lockUnlocked = False
-    textQuestLine = 'The dean has assigned you the ' + Role.__class__.__name__ + ' role and has given you the powers' + '\n' + 'to wake these teachers up' 
-    'The dean has asked you to figure out a way to get inside of the campus because the teachers have locked them from the inside' + '\n'
+    textQuestLine = '\n' + 'The dean has assigned you the ' + Role.__class__.__name__ + ' role and has given you the powers' + '\n' + 'to wake these teachers up' + 'The dean has asked you to figure out a way to get inside of the campus because the teachers have locked them from the inside' + '\n'
     print(textQuestLine)
     questInput = input('Do you accept the quest?(Y/N)')
     if(questInput == str(questInput) == 'yes' or 'y'):
         try:
             while(lockUnlocked != True):
-                decision = input('There are four spots to check in the front of the school and are as listed (E to check bag, F for Character Statistics):' + '\n' +
+                decision = input('\n' + 'There are four spots to check in the front of the school and are as listed (E to check bag, F for Character Statistics):' + '\n' +
                 'A: Stairs' + '\n' +
                 'B: School Directory' + '\n' +
                 'C: Door' + '\n' +
@@ -100,7 +99,9 @@ def firstChallenge(Role):
                     if not (Role.itemBackpack):
                         print ("Your bag is empty")
                     else:
-                        print(*Role.itemBackpack, sep = "\n")               
+                        print(*Role.itemBackpack, sep = "\n")  
+                elif(decision.lower() == 'f' and 'stats'):
+                    print(Role.Stats())                 
             return resultOutcome
         except:
             print('An error has occured')
@@ -143,3 +144,4 @@ def gamePlay():
     return resultOutcome
 
 GameMenu()
+

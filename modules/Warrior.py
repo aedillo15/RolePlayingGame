@@ -12,17 +12,22 @@ class Warrior:
         self.itemBackpack = []
     #The vitalityHealth method results in health goes down accordingly to the attribute of Vitality
     def VitalityHealth(self, Vitality):
+        TotalHealth = self.Health
         if(Vitality == 1):
             TotalHealth = self.Health + 25
         elif(Vitality == 2):
             TotalHealth = self.Health + 50
+        elif(Vitality == -1):
+            TotalHealth = self.Health - 25
+        elif(Vitality == -2):
+            TotalHealth = self.Health - 50
         else:
             print("No changes to health")
         return TotalHealth
     #The criticalLoss() method results in the stat change when the Warrior loses the challenge critically rolling a number between 2-3
     def criticalLoss(self):
         Strength = self.Strength - 1
-        HealthPoints = self.HealthPoints - 25
+        HealthPoints = self.HealthPoints - 30
         Vitality = self.Vitality - 1
         Health = self.VitalityHealth(Vitality)
         ToString = "With your critical loss, attributes have gone down strength is now: " + str(Strength) + " vitality is now: " + str(Vitality) + " resulting in total Health now is: " + str(HealthPoints)+ "/" + str(Health)
@@ -34,5 +39,8 @@ class Warrior:
         Vitality = self.Vitality + 1
         Health = self.VitalityHealth(Vitality)
         ToString = "With your critical win, attributes have gone up strength is now: " + str(Strength) + " vitality is now: " + str(Vitality) + " resulting in total Health now is: " + str(HealthPoints)+ "/" + str(Health)
+        return ToString
+    def Stats(self):
+        ToString = "Name: " + self.Name + '\n' +"Class: " + __class__.__name__ + "\n" + "Strength: " + str(self.Strength) + "\n" + "Vitality: " + str(self.Vitality) + "\n" + "Intelligence: " + str(self.Intelligence) + "\n" + "Total Health: " + str(self.HealthPoints) + "/" + str(self.Health)
         return ToString
 
