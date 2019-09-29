@@ -1,4 +1,4 @@
-"This document is a Warrior module implements the data and logic associated with the first role (Warrior)"
+'This document is a Warrior module implements the data and logic associated with the first role (Warrior)'
 class Warrior:
     #These member variables (attributes) here display the statistics of the Warrior class
     # Constructor for Warrior class when called user defines the name create name and assign stats accordingly
@@ -22,25 +22,25 @@ class Warrior:
         elif(Vitality == -2):
             TotalHealth = self.Health - 50
         else:
-            print("No changes to health")
+            print('No changes to health')
         return TotalHealth
     #The criticalLoss() method results in the stat change when the Warrior loses the challenge critically rolling a number between 2-3
     def criticalLoss(self):
-        Strength = self.Strength - 1
-        HealthPoints = self.HealthPoints - 30
-        Vitality = self.Vitality - 1
-        Health = self.VitalityHealth(Vitality)
-        ToString = "With your critical loss, attributes have gone down strength is now: " + str(Strength) + " vitality is now: " + str(Vitality) + " resulting in total Health now is: " + str(HealthPoints)+ "/" + str(Health)
+        self.Strength = self.Strength - 1
+        self.HealthPoints = self.HealthPoints - 30
+        self.Vitality = self.Vitality - 1
+        self.Health = self.VitalityHealth(self.Vitality)
+        ToString = 'With your critical loss, attributes have gone down strength is now: ' + str(self.Strength) + ' vitality is now: ' + str(self.Vitality) + ' resulting in total Health now is: ' + str(self.HealthPoints)+ '/' + str(self.Health)
         return ToString
     #The criticalWin() method results in the stat change when the Warrior wins the challenge critically rolling a number between 11-12
     def criticalWin(self):
-        Strength = self.Strength + 1
-        HealthPoints = self.HealthPoints + 25
-        Vitality = self.Vitality + 1
-        Health = self.VitalityHealth(Vitality)
-        ToString = "With your critical win, attributes have gone up strength is now: " + str(Strength) + " vitality is now: " + str(Vitality) + " resulting in total Health now is: " + str(HealthPoints)+ "/" + str(Health)
+        self.Strength = self.Strength + 1
+        self.HealthPoints = self.HealthPoints + 25
+        self.Vitality = self.Vitality + 1
+        self.Health = self.VitalityHealth(self.Vitality)
+        ToString = 'With your critical win, attributes have gone up strength is now: ' + str(self.Strength) + ' vitality is now: ' + str(self.Vitality) + ' resulting in total Health now is: ' + str(self.HealthPoints)+ '/' + str(self.Health)
         return ToString
     def Stats(self):
-        ToString = "Name: " + self.Name + '\n' +"Class: " + __class__.__name__ + "\n" + "Strength: " + str(self.Strength) + "\n" + "Vitality: " + str(self.Vitality) + "\n" + "Intelligence: " + str(self.Intelligence) + "\n" + "Total Health: " + str(self.HealthPoints) + "/" + str(self.Health)
+        ToString = '\n' + 'Name: ' + self.Name + '\n' +'Class: ' + 'Warrior' + '\n' + 'Strength: ' + str(self.Strength) + '\n' + 'Vitality: ' + str(self.Vitality) + '\n' + 'Intelligence: ' + str(self.Intelligence) + '\n' + 'Total Health: ' + str(self.HealthPoints) + '/' + str(self.Health)
         return ToString
 
