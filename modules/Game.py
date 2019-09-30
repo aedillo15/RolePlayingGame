@@ -8,39 +8,74 @@ def GameMenu():
     Introduction = 'Welcome to the World of Sheridan.' + '\n' + '\n' + 'The school has been infested with teachers that sleep,' + '\n' + 'when they teach and we want to get rid of them by the time the summer ends.' + '\n'
     print(Introduction)
     Name = input('Before we begin what is your name? ' + '\n')
-    AskRole = input('\n' + f'Well {Name}, you have just entered the school and you see this problem,' + '\n' + 
-    'the dean of the school has allowed the special powers' + '\n' +
-    'to be given to you to wake these teachers up.' + '\n' + '\n'
-    + 'The dean gives you two options: ' + '\n' +  'Warrior or Wizard, in order to wake up these bad teachers. ')
-    if (AskRole == 'Warrior' or 'warrior'):
+    NameCap = Name.capitalize()
+    AskRoleConfirmation = ''
+    Introduction = '\n' + f'Well {NameCap}, you have just entered the school and you see this problem,' 
+    print(Introduction)
+    #If the user input is the warrior then assign them the role of "Warrior" from the warrior module
+    #Loop until the user has confirmed their choice if they end up saying no keep asking them what their role may be 
+    while(AskRoleConfirmation.lower() != 'y' and AskRoleConfirmation.lower() != 'yes'):
         #When user input equals the role create an object of Warrior or Wizard accordingly to the user input
-        Character = Warrior.Warrior(Name)
+        AskRole = input('The dean gives you two options: ' + '\n' +  'Warrior or Wizard, in order to wake up these bad teachers. ')
+        if (AskRole.lower() == 'warrior'):
+            Character = Warrior.Warrior(NameCap)
+            AskRoleConfirmation = input('Are you sure you would like to choose ' + Character.__class__.__name__ + ' (Y/N)?')
+        elif(AskRole.lower() == 'wizard'):
+            Character = Wizard.Wizard(NameCap)
+            AskRoleConfirmation = input('Are you sure you would like to choose ' + Character.__class__.__name__ + ' (Y/N)?')
         #Once the role is assigned give the first challenge to the user
-        resultFirstChallenge = firstChallenge(Character)
-        #The first challenge will give a string that will result whether or not the user has loss or won, then make
-        #the object adjustments on the member variables
-        #If the firstChallege output is a, then the user critically lost, -1 from stats and -1 vitality which decreases health
-        if(resultFirstChallenge == 'a'):
-            #Subtracting 1 from the strength
-            loss = Character.criticalLoss()
-            print(str(loss))
-            secondChallenge(Character)
-        elif(resultFirstChallenge == 'b'):
-            secondChallenge(Character)
-        elif(resultFirstChallenge == 'c'):
-            secondChallenge(Character)
-        #If the firstChallege output is d, then the user critically won, +1 from stats and +1 vitality which increases health
-        elif(resultFirstChallenge == 'd'):
-            win = Character.criticalWin()
-            print(str(win))
-            secondChallenge(Character)
-        #    elif(AskRole == 'Wizard' or 'wizard'):
-        #        Character = Wizard
+    resultFirstChallenge = firstChallenge(Character)
+    #The first challenge will give a string that will result whether or not the user has loss or won, then make, the object adjustments on the member variables
+    #If the firstChallege output is a, then the user critically lost, -1 from stats and -1 vitality which decreases health
+    #Permuations of challenges shall report them to the next challenges ABCD, ABDC, ACBD, ACDB, ADBC, ADCB,
+                                                                        #BACD, BADC, BCAD, BCDA, BDAC, BDCA,
+                                                                        #CABD, CADB, CBAD, CBDA, CDAB, CDBA,
+                                                                        #DABC, DACB, DBAC, DBCA, DCAB, DCBA
+    if(resultFirstChallenge == 'a'):
+        loss = Character.criticalLoss()
+        print(str(loss))
+        secondResultOutcome = secondChallenge(Character)
+        if(secondResultOutcome == 'a'):
+            thirdChallenge(Character)
+        elif(secondResultOutcome == 'b'):
+            thirdChallenge(Character)
+        elif(secondResultOutcome == 'c'):
+            thirdChallenge(Character)
+        elif(secondResultOutcome == 'd'):
+            thirdChallenge(Character)
+    elif(resultFirstChallenge == 'b'):
+        secondResultOutcome = secondChallenge(Character)
+        if(secondResultOutcome == 'a'):
+            thirdChallenge(Character)
+        elif(secondResultOutcome == 'b'):
+            thirdChallenge(Character)
+        elif(secondResultOutcome == 'c'):
+            thirdChallenge(Character)
+        elif(secondResultOutcome == 'd'):
+            thirdChallenge(Character)
+    elif(resultFirstChallenge == 'c'):
+        secondResultOutcome = secondChallenge(Character)
+        if(secondResultOutcome == 'a'):
+            thirdChallenge(Character)
+        elif(secondResultOutcome == 'b'):
+            thirdChallenge(Character)
+        elif(secondResultOutcome == 'c'):
+            thirdChallenge(Character)
+        elif(secondResultOutcome == 'd'):
+            thirdChallenge(Character)
+    #If the firstChallege output is d, then the user critically won, +1 from stats and +1 vitality which increases health
+    elif(resultFirstChallenge == 'd'):
+        #TODO: figure out how to change attributes for Wizard when they win
+        win = Character.criticalWin()
+        print(str(win))
+        resultOutcome = secondChallenge(Character)
+        if(resultOutcome == 'd'):
+            thirdChallenge(Character)
 #This method will be the first challenge of entering  a room into 
 def firstChallenge(Role):
-    #Decision can be a bush (5 bandages), school directory(map), door(locked, unlock), Sheridan Sign (key)
+    #Decision can be a bush (5 bandages), school directory(map), door(locked, unlock), Sheridan Sign (firstKey)
     textLocation = ''
-    key = False
+    firstKey = False
     resultOutcome = ''
     lockUnlocked = False
     textQuestLine = '\n' + 'The dean has assigned you the ' + Role.__class__.__name__ + ' role and has given you the powers' + '\n' + 'to wake these teachers up.' + '\n' + '\n' + 'The dean has asked you to figure out a way to get inside of the campus because the teachers have lock the doors from the inside.' + '\n'
@@ -68,23 +103,25 @@ def firstChallenge(Role):
                     while(pickUp.lower() != 'y' and pickUp.lower() != 'yes' and pickUp.lower() != 'n' and pickUp.lower() != 'no'):
                         pickUp = input('Would you like to pick up this ' + item + ' up?(Y/N)')   
                         #Figure out how to get out of the loop once the Map is equippe and appended to the itemBackpack
-                        if(pickUp.lower() == 'y' or pickUp.lower() == 'yes'): 
+                        if(pickUp.lower() == 'y' or pickUp.lower() == 'yes' and 'Map' not in Role.itemBackpack): 
                             Role.itemBackpack.append(item)
-                            print('You have now equipped the map...')
+                            print("You have now equipped the map...")
+                        elif(decision.lower() == 'y' or pickUp.lower() == 'yes' and 'Map' in Role.itemBackpack):
+                            print("There is nothing to found here anymore")
                         elif(pickUp.lower() == 'n' or pickUp.lower() == 'no'):
-                            print('Back to the entrance')
+                            print("Back to the entrance")
                 elif(decision.lower() == 'c' or decision.lower() == 'door'):
-                    if(key == False):
-                        textLocation = 'The door is locked and there is a lock' +'\n' + '...it seems like it can be locked by something'
+                    if(firstKey == False):
+                        textLocation = 'There is a lock on the door and you see that the door is locked' +'\n' + '...it seems like it can be locked by an item in your backpack'
                         print(textLocation)
-                    elif(key == True):
-                        textLocation = 'The door is locked and there is a lock' + '\n' + 'it seems like your key fits it ' + '\n' + '...' + '\n' + 'Door is now unlocked!' + '\n' + '\n' + 'You have now entered the campus. '
+                    elif(firstKey == True):
+                        textLocation = 'There is a lock on the door and you see that the door is locked' + '\n' + 'it seems like your firstKey fits it ' + '\n' + '...' + '\n' + 'Door is now unlocked!' + '\n' + '\n' + 'You have now entered the campus. '
                         #The result outcome is equal to the dice roll from gamePlay()
                         resultOutcome = gamePlay()
                         print(textLocation)
                         lockUnlocked = True
                 elif(decision.lower() == 'd' or decision.lower() == 'sign'):
-                    item = 'Key'
+                    item = 'firstKey'
                     textLocation = 'You check the sign and notice a ' + item
                     print(textLocation)
                     pickUp = ''
@@ -92,15 +129,16 @@ def firstChallenge(Role):
                         pickUp = input('Would you like to pick up this ' + item + ' up?(Y/N)')
                         if (pickUp.lower() == 'y' or pickUp.lower() == 'yes'):
                             Role.itemBackpack.append(item)                        
-                            print('You have now equipped the key...')
-                            key = True
+                            print("You have now equipped the firstKey...")
+                            firstKey = True
                         elif pickUp.lower() == 'no' or pickUp.lower() == 'n':
-                            print('Back to the entrance')
+                            print("Back to the entrance")
                 elif(decision.lower() == 'e' or decision.lower() == 'bag'):
                     if not (Role.itemBackpack):
-                        print ('Your bag is empty')
+                        print ("Your bag is empty")
                     else:
-                        print(*Role.itemBackpack, sep = '\n')  
+                        print(*Role.itemBackpack, sep = "\n") 
+                #Find out why it gets here when the power is turned on, escape while loop before this vv         
                 elif(decision.lower() == 'f' or 'stats'):
                     print(Role.Stats())                 
             return resultOutcome
@@ -111,8 +149,7 @@ def secondChallenge(Role):
     mapChecked = False
     powerOn = False
     resultOutcome = ''
-    #lockUnlocked = False
-    textQuestLine = '\n' + 'You are now inside of the campus and now you have to look for the teachers to wake up' + '\n' + 'since they have been asleep since the beginning of the summer from the previous semesters. ' + '\n'
+    textQuestLine = '\n' + 'You are now inside of the campus and it is super dark, figure out a way to turn the power on' + '\n'
     print(textQuestLine)
     questInput = input('Do you accept this quest?(Y/N)' + '\n')
     if(str(questInput) == 'y' or str(questInput) == 'yes'):
@@ -124,30 +161,38 @@ def secondChallenge(Role):
                 'C: School Directory' + '\n'
                 'Your Choice: ')
                 if(decision.lower() == 'a' and mapChecked == True):
-                    textLocation = 'After checking the map, you now know where the control room is and you enter this room and see a switch to turn the school power on' + '\n'
+                    textLocation = 'After checking the map, you now know where the control room is.' + '\n' + 'You enter the Control Room and see a switch to turn the school power on' + '\n'
                     print(textLocation)
                     turnOnPower = ''
                     while(turnOnPower.lower() != 'y' and turnOnPower.lower() != 'yes' and turnOnPower.lower() != 'n' and turnOnPower.lower() != 'no'):
                         turnOnPower = input('Would you like to turn the power on?(Y/N)')   
                         if (turnOnPower.lower() == 'y' or turnOnPower.lower() == 'yes'): 
                             powerOn = True
-                            print('You have now turned the power on!')
+                            print("You have now turned the power on!")
                             resultOutcome = gamePlay()
+                            #Function that checks that the user health is not 0, if 0 then print (Game Over!) and break program
+                            if(Role.Health == 0):
+                                print('Game Over!')
+                                break
                         elif(turnOnPower.lower() == 'n' or turnOnPower.lower() == 'no'):
-                            print('Back to the entrance')
-                    print(textLocation)
+                            print("Back to the Entrance" + '\n')
                 if(decision.lower() == 'a' and mapChecked == False):
-                    textLocation = 'You do not know where the control room is, figure a way to know where the Control Room is' + '\n'
+                    textLocation = 'You do not know where the Control Room is, figure a way to know where the Control Room is' + '\n'
                     print(textLocation)   
                 #Give the user this option when they have a map in their bag
                 elif(decision.lower() == 'b' and 'Map' in Role.itemBackpack):
-                    textLocation = 'You check the map and see that the control room is not too far down the hall way where you see the blue light' + '\n'
+                    textLocation = 'You check the Map. You see that the Control Room is not too far down the hall way where you see the blue light.' + '\n'
                     mapChecked = True
                     print(textLocation)
                 #Give the user this option when they dont have a map in their bag
                 elif(decision.lower() == 'b' and 'Map' not in Role.itemBackpack):
                     textLocation = 'You check your backpack and there is nothing for you see' + '\n'
                     print(textLocation)
+                #If the user already has a map in their backpack don't allow them to pick another Map up
+                elif(decision.lower() == 'c' or decision.lower() == 'directory' and 'Map' in Role.itemBackpack):
+                    textLocation = 'You check the directory and see a map, you already have a map in your backpack. ' + '\n'
+                    print(textLocation)
+                #If the user hasn't picked up a map from the first school directory from firstChallenge(Role) then allow them pick it up so they can find the control room
                 elif(decision.lower() == 'c' or decision.lower() == 'directory' and 'Map' not in Role.itemBackpack):
                     item = 'Map'
                     pickUp = ''
@@ -157,28 +202,109 @@ def secondChallenge(Role):
                         pickUp = input('Would you like to pick up this ' + item + ' up?(Y/N)')   
                         if (pickUp.lower() == 'y' or pickUp.lower() == 'yes'): 
                             Role.itemBackpack.append(item)
-                            print('You have now equipped the map...')
+                            print("You have now equipped the map..." + '\n')
                         elif(pickUp.lower() == 'n' or pickUp.lower() == 'no'):
-                            print('Back to the entrance')
+                            print("Back to the entrance" + '\n')
                 elif(decision.lower() == 'e' or decision.lower() == 'bag'):
                     if not (Role.itemBackpack):
-                        print ('Your bag is empty')
+                        print ("Your bag is empty")
                     else:
-                        print(*Role.itemBackpack, sep = '\n')  
-                elif(decision.lower() == 'f' or 'stats'):
+                        print(*Role.itemBackpack, sep = "\n")  
+                elif(decision.lower() == 'f'):
                     print(Role.Stats()) 
-                return resultOutcome    
+            return resultOutcome  
         except:
             print('An error has occured')
-#Do not give the room information (A: Coffee Shop, B: Broadcasting Station, C: Library, D: Classroom) until the user has checked a two part menu where a note says to check the map 
+#The third challenge requires the user to use the PA system and find out there is teachers sleeping in the class room and then pick up a flashlight so the user knows how they see the coffee maker where user can pour coffee and put them in the bag
+def thirdChallenge(Role):
+    textLocation = ''
+    flashLight = False
+    secondKey = False
+    microphoneUsed = False
+    resultOutcome = ''
+    pickUp = ''
+    textQuestLine = '\n' + 'You can now see more of the campus and but you dont hear any sounds or have a clue where these teachers are ' + '\n' + 'you have to look for where these teachers are sleeping' + '\n' + 'so you can wake them up!' + '\n'
+    print(textQuestLine)
+    questInput = input('Do you accept this quest?(Y/N)' + '\n')
+    #If N, prompt user to confirm quitting the game
+    # The user can check broadcasting station (secondKey), library(flashlight), classroom(needs key) until  
+    if(str(questInput) == 'y' or str(questInput) == 'yes'):
+        # Do this until flashLight is in the bag and microphone is used in the broadcasting station  
+        while(flashLight != True and microphoneUsed != True and secondKey != True):
+            decision = input('\n' + 'There are three spots to check in the front of the school and are as listed (E to check bag, F for Character Statistics):' + '\n' +
+                    'A: Broadcasting Station' + '\n' +
+                    'B: Library' + '\n' +
+                    'C: Classroom' + '\n' +
+                    'Your choice: ')
+            #Broadcasting Station
+            if(decision.lower() == 'a' or decision.lower() == 'station'):
+                textLocation = 'You enter the broadcasting station and you can use the microphone and see a flashlight you might need' + '\n'
+                print(textLocation)   
+                item = 'Flashlight'
+                microphoneChecked = False
+                flashLightEquip = False
+                while(microphoneChecked != True and flashLightEquip != True):
+                    decision = input('\n' + 'There are two spots to check in the broadcasting station and (E to check bag, F for Character Statistics):' + '\n' +
+                        'A: Microphone' + '\n' +
+                        'B: Flashlight' + '\n'
+                        'Your choice: ')
+                    #The logic behind the microphone which gives a boolean access to the class room option    
+                    if(decision.lower() == 'a' or decision.lower() == 'microphone' and microphoneChecked == False):
+                        textLocation = 'You try out the microphone and make an announcement asking if anyone is at the school,' + '\n' + 'you use the PA and hear that there is a ton of snoring going on in class SCAET 420'
+                        print(textLocation)
+                        microphoneChecked = True
+                        microphoneUsed = True
+                    if(decision.lower() == 'a' and microphoneChecked == True):
+                        textLocation = 'You already made an annoucement and hear snoring coming from class SCAET 420'
+                        print(textLocation)
+                    if(decision.lower() == 'b' or decision.lower() == 'flashlight'):
+                        while(pickUp.lower() != 'y' and pickUp.lower() != 'yes' and pickUp.lower() != 'n' and pickUp.lower() != 'no'):
+                            pickUp = input('Would you like to pick up this ' + item + ' up?(Y/N)')   
+                            if (pickUp.lower() == 'y' or pickUp.lower() == 'yes'): 
+                                Role.itemBackpack.append(item)
+                                print("You have now equipped the " + item + "...")
+                                flashLightEquip = True
+                                flashLight = True
+                            elif(pickUp.lower() == 'n' or pickUp.lower() == 'no'):
+                                print("Back to the studio")
+            #Give the user this option when they have a map in their bag
+            elif(decision.lower() == 'b' or decision.lower() == 'library'):
+                item = 'secondKey'
+                textLocation = 'You check the library and find a key on the librarians table.' + '\n'
+                print(textLocation)
+                while(pickUp.lower() != 'y' and pickUp.lower() != 'yes' and pickUp.lower() != 'n' and pickUp.lower() != 'no'):
+                    pickUp = input('Would you like to pick up this ' + item + ' up?(Y/N)')   
+                    if (pickUp.lower() == 'y' or pickUp.lower() == 'yes'): 
+                        Role.itemBackpack.append(item)
+                        print("You have now equipped the " + item + "...")
+                        secondKey = True
+                    elif(pickUp.lower() == 'n' or pickUp.lower() == 'no'):
+                        print("Back to the school")                
+            #Elif C don't know where it is until flash light and PA announcement from classroom snoring
+            elif(decision.lower() == 'c' and secondKey == False):
+                textLocation = 'You check the classroom and see that the class room is locked' + '\n'
+                print(textLocation)
+            elif(decision.lower() == 'e' or decision.lower() == 'bag'):
+                if not (Role.itemBackpack):
+                    print ("Your bag is empty")
+                else:
+                    print(*Role.itemBackpack, sep = "\n")  
+            elif(decision.lower() == 'f' or 'stats'):
+                print(Role.Stats()) 
+        #'A: Coffee Shop' + '\n' +
+        #textLocation = 'You check the coffee shop and see that there is a fresh pot of coffee there' + '\n'
+        #print(textLocation)   
+    return resultOutcome    
+#(A: Coffee Shop, B: Broadcasting Station, C: Library, D: Classroom)
 def gamePlay():
     result = ''
     resultOutcome = ''
     diceOne = random.randrange(0,7)
     diceTwo = random.randrange(0,7)
     finalDice = diceOne + diceTwo
+    print(finalDice)
     #Critical Loss (e.g. 2 - 3): challenge is lost and the attribute that is based on is decreased
-    if (finalDice == 2 or finalDice == 3):
+    if (finalDice == 1 or finalDice == 2 or finalDice == 3):
         result = '\n' + 'You rolled a ' + str(finalDice) + ' challenge is critically lost and your attributes have decreased' + '\n'
         resultOutcome = 'a'
     #Loss (e.g. 4-7): challenge is lost, no change in the character’s attributes
