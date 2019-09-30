@@ -27,7 +27,7 @@ class Warrior:
     #The criticalLoss() method results in the stat change when the Warrior loses the challenge critically rolling a number between 2-3
     def criticalLoss(self):
         self.Strength = self.Strength - 1
-        self.HealthPoints = self.HealthPoints - 30
+        self.HealthPoints = self.HealthPoints - 50
         self.Vitality = self.Vitality - 1
         self.Health = self.VitalityHealth(self.Vitality)
         ToString = 'With your critical loss, attributes have gone down strength is now: ' + str(self.Strength) + ' vitality is now: ' + str(self.Vitality) + ' resulting in total Health now is: ' + str(self.HealthPoints)+ '/' + str(self.Health)
@@ -35,12 +35,12 @@ class Warrior:
     #The criticalWin() method results in the stat change when the Warrior wins the challenge critically rolling a number between 11-12
     def criticalWin(self):
         self.Strength = self.Strength + 1
-        self.HealthPoints = self.HealthPoints + 25
+        self.HealthPoints = self.HealthPoints + 50
         self.Vitality = self.Vitality + 1
         self.Health = self.VitalityHealth(self.Vitality)
         ToString = 'With your critical win, attributes have gone up strength is now: ' + str(self.Strength) + ' vitality is now: ' + str(self.Vitality) + ' resulting in total Health now is: ' + str(self.HealthPoints)+ '/' + str(self.Health)
         return ToString
     def Stats(self):
-        ToString = '\n' + 'Name: ' + self.Name + '\n' +'Class: ' + 'Warrior' + '\n' + 'Strength: ' + str(self.Strength) + '\n' + 'Vitality: ' + str(self.Vitality) + '\n' + 'Intelligence: ' + str(self.Intelligence) + '\n' + 'Total Health: ' + str(self.HealthPoints) + '/' + str(self.Health)
+        ToString = '\n' + 'Name: ' + self.Name + '\n' +'Class: ' + 'Warrior' + '\n' + 'Strength: ' + str(self.Strength) + '\n' + 'Vitality: ' + str(self.Vitality) + '\n' + 'Intelligence: ' + str(self.Intelligence) + '\n' + 'Total Health: ' + str(self.HealthPoints) + '/' + str(self.Health) + '\n'
         return ToString
 
