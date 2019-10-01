@@ -1,4 +1,4 @@
-'This document is a Warrior module implements the data and logic associated with the first role (Warrior)'
+'This document is a Wizard module implements the data and logic associated with the first role (Wizard)'
 class Wizard:
     #These member variables (attributes) here display the statistics of the Warrior class
     # Constructor for Warrior class when called user defines the name create name and assign stats accordingly
@@ -9,7 +9,7 @@ class Wizard:
         self.Intelligence = 2
         self.HealthPoints = 100
         self.Health = 100
-        self.itemBackpack = []
+        self.ItemBackpack = []
     #The vitalityHealth method results in health goes down accordingly to the attribute of Vitality
     def VitalityHealth(self, Vitality):
         TotalHealth = self.Health

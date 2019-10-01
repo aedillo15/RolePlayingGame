@@ -9,7 +9,7 @@ class Warrior:
         self.Intelligence = -2
         self.HealthPoints = 100
         self.Health = 100
-        self.itemBackpack = []
+        self.ItemBackpack = []
     #The vitalityHealth method results in health goes down accordingly to the attribute of Vitality
     def VitalityHealth(self, Vitality):
         TotalHealth = self.Health
