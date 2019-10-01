@@ -1,10 +1,11 @@
-#This python file is going to serve as the implementation of game data and logic and the interactivity with the user.
+"""This python file is going to serve as the implementation of game data and logic and the interactivity with the user."""
 #Imported Modules including random, Warrior, Wizard
 import random
 import Warrior
 import Wizard
-#This GameMenu() method represents the introduction of the game, asking for users name and creating the Role object (Warrior and Wizard)
+#This GameMenu() method represents the introduction of the game, asking for users name and creating the Role object (Warrior and Wizard) accordingly to user input, in addition the outComes of the dice resulting in the attribute changes of Role
 def GameMenu():
+    #Introduction is the welcome prompt for 
     Introduction = 'Welcome to the World of Sheridan.' + '\n' + '\n' + 'The school has been infested with teachers that sleep,' + '\n' + 'when they teach and we want to get rid of them by the time the summer ends.' + '\n'
     print(Introduction)
     Name = input('Before we begin what is your name? ' + '\n')
@@ -27,10 +28,7 @@ def GameMenu():
     resultFirstChallenge = firstChallenge(Character)
     #The first challenge will give a string that will result whether or not the user has loss or won, then make, the object adjustments on the member variables
     #If the firstChallege output is a, then the user critically lost, -1 from stats and -1 vitality which decreases health
-    #Permuations of challenges shall report them to the next challenges ABCD, ABDC, ACBD, ACDB, ADBC, ADCB,
-                                                                        #BACD, BADC, BCAD, BCDA, BDAC, BDCA,
-                                                                        #CABD, CADB, CBAD, CBDA, CDAB, CDBA,
-                                                                        #DABC, DACB, DBAC, DBCA, DCAB, DCBA
+    #Permuations of challenges shall report them to the next challenges 
     if(resultFirstChallenge == 'a'):
         loss = Character.criticalLoss()
         print(str(loss))
@@ -231,31 +229,28 @@ def thirdChallenge(Role):
     # The user can check broadcasting station (secondKey), library(flashlight), classroom(needs key) until  
     if(str(questInput) == 'y' or str(questInput) == 'yes'):
         # Do this until flashLight is in the bag and microphone is used in the broadcasting station then give them the classroom option; if A: Broadcasting Station flashlight and microPhone used; You already seen this room  
-        while(flashLight != True and microphoneUsed != True):
+        while(flashLight != True or microphoneUsed != True):
             decision = input('\n' + 'There are two spots to check in the front of the school and are as listed (E to check bag, F for Character Statistics):' + '\n' +
                     'A: Broadcasting Station' + '\n' +
                     'B: Library' + '\n' +
                     'Your choice: ')
-            #Broadcasting Station
+            #Decision A: Broadcasting Station
             if(decision.lower() == 'a' or decision.lower() == 'station'):
-                textLocation = 'You enter the broadcasting station and you can use the microphone and see a flashlight you might need.' + '\n'
+                textLocation = '\n' + 'You enter the broadcasting station and you can use the microphone and see a flashlight you might need.' + '\n'
                 print(textLocation)   
                 item = 'Flashlight'
-                microphoneChecked = False
-                flashLightEquip = False
-                while(microphoneChecked != True and flashLightEquip != True):
+                while(microphoneUsed != True or flashLight != True):
                     decision = input('\n' + 'There are two spots to check in the broadcasting station and (E to check bag, F for Character Statistics):' + '\n' +
-                        'A: Microphone' + '\n' +
-                        'B: Flashlight' + '\n'
+                        'A: [Place] Microphone' + '\n' +
+                        'B: [Item] Flashlight' + '\n'
                         'Your choice: ')
-                    if(decision.lower() == 'a' and microphoneChecked == True):
-                        textLocation = 'You already made an annoucement and hear snoring coming from class SCAET 420.'
+                    if(decision.lower() == 'a' and microphoneUsed == True):
+                        textLocation = '\n' + 'You already made an annoucement and hear snoring coming from class SCAET 420.'
                         print(textLocation)                        
-                    #The logic behind the microphone which gives a boolean access to the class room option    
-                    if(decision.lower() == 'a' or decision.lower() == 'microphone' and microphoneChecked == False):
-                        textLocation = 'You try out the microphone and make an announcement asking if anyone is at the school,' + '\n' + 'you use the PA and hear that there is a ton of snoring going on in class SCAET 420'
+                        #The logic behind the microphone which gives a boolean access to the class room option    
+                    if(decision.lower() == 'a' and microphoneUsed == False):
+                        textLocation = '\n' + 'You try out the microphone and make an announcement asking if anyone is at the school,' + '\n' + 'you use the PA and hear that there is a ton of snoring going on in class SCAET 420'
                         print(textLocation)
-                        microphoneChecked = True
                         microphoneUsed = True
                     if(decision.lower() == 'b' or decision.lower() == 'flashlight'):
                         while(pickUp.lower() != 'y' and pickUp.lower() != 'yes' and pickUp.lower() != 'n' and pickUp.lower() != 'no'):
@@ -263,32 +258,32 @@ def thirdChallenge(Role):
                             if (pickUp.lower() == 'y' or pickUp.lower() == 'yes'): 
                                 Role.itemBackpack.append(item)
                                 print("You have now equipped the " + item + "...")
-                                flashLightEquip = True
                                 flashLight = True
+                                #flashLight = True
                             elif(pickUp.lower() == 'n' or pickUp.lower() == 'no'):
                                 print("Back to the studio")
-                    #Give the user this option when they have a map in their bag
-                    elif(decision.lower() == 'b' or decision.lower() == 'library'):
-                        item = 'secondKey'
-                        textLocation = 'You check the library and find a key on the librarians table.' + '\n'
-                        print(textLocation)
-                        while(pickUp.lower() != 'y' and pickUp.lower() != 'yes' and pickUp.lower() != 'n' and pickUp.lower() != 'no'):
-                            pickUp = input('Would you like to pick up this ' + item + ' up?(Y/N)')   
-                            if (pickUp.lower() == 'y' or pickUp.lower() == 'yes'): 
-                                Role.itemBackpack.append(item)
-                                print("You have now equipped the " + item + "...")
-                                secondKey = True
-                            elif(pickUp.lower() == 'n' or pickUp.lower() == 'no'):
-                                print("Back to the school") 
-                    elif(decision.lower() == 'e' or decision.lower() == 'bag'):
-                        if not (Role.itemBackpack):
-                            print ("Your bag is empty")
-                        else:
-                            print(*Role.itemBackpack, sep = "\n")  
-                    elif(decision.lower() == 'f' or 'stats'):
-                        print(Role.Stats()) 
+            #Give the user this option when they have a map in their bag
+            elif(decision.lower() == 'b' or decision.lower() == 'library'):
+                item = 'secondKey'
+                textLocation = 'You check the library and find a key on the librarians table.' + '\n'
+                print(textLocation)
+                while(pickUp.lower() != 'y' and pickUp.lower() != 'yes'):
+                    pickUp = input('Would you like to pick up this ' + item + ' up?(Y/N)')   
+                    if (pickUp.lower() == 'y' or pickUp.lower() == 'yes'): 
+                        Role.itemBackpack.append(item)
+                        print("You have now equipped the " + item + "...")
+                        secondKey = True
+                    elif(pickUp.lower() == 'n' or pickUp.lower() == 'no'):
+                        print("Back to the school") 
+            elif(decision.lower() == 'e' or decision.lower() == 'bag'):
+                if not (Role.itemBackpack):
+                    print ("Your bag is empty")
+                else:
+                    print(*Role.itemBackpack, sep = "\n")  
+            elif(decision.lower() == 'f' or 'stats'):
+                print(Role.Stats()) 
         #While Loop that gives the user options A-D: resulting in Broadcasting Room, Library, Coffee Shop, Classroom (Coffee and Secondkey) not until Flashlight is true, Microphone used is true, Coffee in the backpack and the classroom is unlocked with Secondkey         
-        while(flashLight != True and microphoneUsed != True and 'Coffee' in Role.itemBackpack and ClassRoomUnlocked == True):   
+        while(flashLight != True or microphoneUsed != True or 'Coffee' in Role.itemBackpack or ClassRoomUnlocked == True):   
             decision = input('\n' + 'There are four spots to check in the front of the school and are as listed (E to check bag, F for Character Statistics):' + '\n' +
                     'A: Broadcasting Station' + '\n' +
                     'B: Library' + '\n' +
@@ -300,15 +295,14 @@ def thirdChallenge(Role):
                 print(textLocation)
         #textLocation = 'You check the coffee shop and see that there is a fresh pot of coffee there' + '\n'
         #print(textLocation)   
-        #return resultOutcome    
+        return resultOutcome
 #(A: Coffee Shop, B: Broadcasting Station, C: Library, D: Classroom)
 def gamePlay():
     result = ''
     resultOutcome = ''
-    diceOne = random.randrange(0,7)
-    diceTwo = random.randrange(0,7)
+    diceOne = random.randrange(1,7)
+    diceTwo = random.randrange(1,7)
     finalDice = diceOne + diceTwo
-    print(finalDice)
     #Critical Loss (e.g. 2 - 3): challenge is lost and the attribute that is based on is decreased
     if (finalDice == 1 or finalDice == 2 or finalDice == 3):
         result = '\n' + 'You rolled a ' + str(finalDice) + ' challenge is critically lost and your attributes have decreased' + '\n'

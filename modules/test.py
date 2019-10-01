@@ -17,39 +17,36 @@ def thirdChallenge(Role):
     # The user can check broadcasting station (secondKey), library(flashlight), classroom(needs key) until  
     if(str(questInput) == 'y' or str(questInput) == 'yes'):
         # Do this until flashLight is in the bag and microphone is used in the broadcasting station then give them the classroom option; if A: Broadcasting Station flashlight and microPhone used; You already seen this room  
-        while(flashLight != True and microphoneUsed != True):
+        while(flashLight != True or microphoneUsed != True):
             decision = input('\n' + 'There are two spots to check in the front of the school and are as listed (E to check bag, F for Character Statistics):' + '\n' +
                     'A: Broadcasting Station' + '\n' +
                     'B: Library' + '\n' +
                     'Your choice: ')
             #Decision A: Broadcasting Station
             if(decision.lower() == 'a' or decision.lower() == 'station'):
-                textLocation = 'You enter the broadcasting station and you can use the microphone and see a flashlight you might need.' + '\n'
+                textLocation = '\n' + 'You enter the broadcasting station and you can use the microphone and see a flashlight you might need.' + '\n'
                 print(textLocation)   
                 item = 'Flashlight'
-                microphoneChecked = False
-                flashLightEquip = False
-                while(microphoneChecked != True and flashLightEquip != True):
+                while(microphoneUsed != True or flashLight != True):
                     decision = input('\n' + 'There are two spots to check in the broadcasting station and (E to check bag, F for Character Statistics):' + '\n' +
                         'A: [Place] Microphone' + '\n' +
                         'B: [Item] Flashlight' + '\n'
                         'Your choice: ')
-                    if(decision.lower() == 'a' and microphoneChecked == True):
-                        textLocation = 'You already made an annoucement and hear snoring coming from class SCAET 420.'
+                    if(decision.lower() == 'a' and microphoneUsed == True):
+                        textLocation = '\n' + 'You already made an annoucement and hear snoring coming from class SCAET 420.'
                         print(textLocation)                        
                         #The logic behind the microphone which gives a boolean access to the class room option    
-                    if(decision.lower() == 'a' or decision.lower() == 'microphone' and microphoneChecked == False):
+                    if(decision.lower() == 'a' and microphoneUsed == False):
                         textLocation = '\n' + 'You try out the microphone and make an announcement asking if anyone is at the school,' + '\n' + 'you use the PA and hear that there is a ton of snoring going on in class SCAET 420'
                         print(textLocation)
-                        microphoneChecked = True
-                        #microphoneUsed = True
+                        microphoneUsed = True
                     if(decision.lower() == 'b' or decision.lower() == 'flashlight'):
                         while(pickUp.lower() != 'y' and pickUp.lower() != 'yes' and pickUp.lower() != 'n' and pickUp.lower() != 'no'):
                             pickUp = input('Would you like to pick up this ' + item + ' up?(Y/N)')   
                             if (pickUp.lower() == 'y' or pickUp.lower() == 'yes'): 
                                 Role.itemBackpack.append(item)
                                 print("You have now equipped the " + item + "...")
-                                flashLightEquip = True
+                                flashLight = True
                                 #flashLight = True
                             elif(pickUp.lower() == 'n' or pickUp.lower() == 'no'):
                                 print("Back to the studio")
@@ -74,7 +71,7 @@ def thirdChallenge(Role):
             elif(decision.lower() == 'f' or 'stats'):
                 print(Role.Stats()) 
         #While Loop that gives the user options A-D: resulting in Broadcasting Room, Library, Coffee Shop, Classroom (Coffee and Secondkey) not until Flashlight is true, Microphone used is true, Coffee in the backpack and the classroom is unlocked with Secondkey         
-        while(flashLight != True and microphoneUsed != True and 'Coffee' in Role.itemBackpack and ClassRoomUnlocked == True):   
+        while(flashLight != True or microphoneUsed != True or 'Coffee' in Role.itemBackpack or ClassRoomUnlocked == True):   
             decision = input('\n' + 'There are four spots to check in the front of the school and are as listed (E to check bag, F for Character Statistics):' + '\n' +
                     'A: Broadcasting Station' + '\n' +
                     'B: Library' + '\n' +
